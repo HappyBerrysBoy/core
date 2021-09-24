@@ -1,12 +1,15 @@
-const BiswapFactory = artifacts.require("BiswapFactory");
+const WBNB = artifacts.require('WBNB')
+const BiswapFactory = artifacts.require('BiswapFactory')
 
-module.exports = async function (deployer) {
-  await deployer.deploy(BiswapFactory, '0xdBE55A0daDc80EF88e884f15CE41c26c0Af933a0');
-  let instance = await BiswapFactory.deployed();
-  await instance.setFeeTo("0x3ea3016aa9e3faaD871AA45232055a424b00bFC1");
-  let res = await instance.feeTo.call();
+module.exports = async function(deployer) {
+  deployer.deploy(WBNB)
+  await deployer.deploy(BiswapFactory, '0x5FB1EC24ae3d3a24e777cA2Cd7eA3314143D170F')
+  let instance = await BiswapFactory.deployed()
+  console.log(instance.address)
+  await instance.setFeeTo('0xC2D4C763F24b2841f54b2D6f5830631F81e9659B')
+  let res = await instance.feeTo.call()
   console.log('fee - ', res)
 
-  let INIT_CODE_HASH = await instance.INIT_CODE_HASH.call();
+  let INIT_CODE_HASH = await instance.INIT_CODE_HASH.call()
   console.log('INIT_CODE_HASH - ', INIT_CODE_HASH)
-};
+}
